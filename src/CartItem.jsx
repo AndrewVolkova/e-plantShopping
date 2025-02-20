@@ -28,18 +28,37 @@ const CartItem = ({ onContinueShopping }) => {
         alert('Commin Soon');
     };
 
-  const handleIncrement = (item) => {
-  };
+    const handleIncrement = (item) => {
+        const updatedItem = { ...item };
+        updatedItem.quantity++;
+        dispatch(updateQuantity(updatedItem));
+    };
 
-  const handleDecrement = (item) => {
-   
-  };
+    const handleDecrement = (item) => {
+        const updatedItem = { ...item };
 
-  const handleRemove = (item) => {
-  };
+        if (updatedItem.quantity == 1) {
+            // Remove item if number of items gets decremented to 0
+            dispatch(removeItem(updatedItem));
+        } else {
+            updatedItem.quantity--;
+            dispatch(updateQuantity(updatedItem));
+        }
+    };
+
+    const handleRemove = (item) => {
+        dispatch(removeItem(item));
+    };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    let total = 0;
+
+        const quantity = item.quantity;
+        const cost = parseFloat(item.cost.substring(1)); 
+        total = quantity * cost;
+
+    return total;    
   };
 
   return (
